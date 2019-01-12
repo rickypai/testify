@@ -17,6 +17,7 @@ import (
 	"unicode/utf8"
 
 	"github.com/davecgh/go-spew/spew"
+	"github.com/golang/protobuf/proto"
 	"github.com/pmezard/go-difflib/difflib"
 )
 
@@ -56,6 +57,15 @@ type Comparison func() (success bool)
 func ObjectsAreEqual(expected, actual interface{}) bool {
 	if expected == nil || actual == nil {
 		return expected == actual
+	}
+
+	expProto, ok := expected.(proto.Message)
+	if ok {
+		actProto, ok := actual.(proto.Message)
+		if ok {
+			// if both are protobuf messages, use `proto.Equal`
+			return proto.Equal(expProto, actProto)
+		}
 	}
 
 	exp, ok := expected.([]byte)
