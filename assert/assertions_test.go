@@ -15,6 +15,9 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/golang/protobuf/proto"
+	"github.com/golang/protobuf/proto/test_proto"
 )
 
 var (
@@ -112,6 +115,29 @@ func TestObjectsAreEqual(t *testing.T) {
 		{123.5, 123.5, true},
 		{[]byte("Hello World"), []byte("Hello World"), true},
 		{nil, nil, true},
+		{
+			test_proto.GoTestField{
+				Label: proto.String("123"),
+				Type:  proto.String("abc"),
+			},
+			test_proto.GoTestField{
+				Label: proto.String("123"),
+				Type:  proto.String("abc"),
+			}, true,
+		},
+		{
+			test_proto.GoTestField{
+				Label:         proto.String("123"),
+				Type:          proto.String("abc"),
+				XXX_sizecache: 1,
+			},
+			test_proto.GoTestField{
+				Label:         proto.String("123"),
+				Type:          proto.String("abc"),
+				XXX_sizecache: 2,
+			},
+			true,
+		},
 
 		// cases that are expected not to be equal
 		{map[int]int{5: 10}, map[int]int{10: 20}, false},
