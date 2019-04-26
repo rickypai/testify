@@ -126,11 +126,11 @@ func TestObjectsAreEqual(t *testing.T) {
 		t.Error("objectsAreEqual should return false")
 	}
 	if !ObjectsAreEqual(
-		test_proto.GoTestField{
+		&test_proto.GoTestField{
 			Label: proto.String("123"),
 			Type:  proto.String("abc"),
 		},
-		test_proto.GoTestField{
+		&test_proto.GoTestField{
 			Label: proto.String("123"),
 			Type:  proto.String("abc"),
 		},
@@ -138,12 +138,12 @@ func TestObjectsAreEqual(t *testing.T) {
 		t.Error("objectsAreEqual should return true")
 	}
 	if !ObjectsAreEqual(
-		test_proto.GoTestField{
+		&test_proto.GoTestField{
 			Label:         proto.String("123"),
 			Type:          proto.String("abc"),
 			XXX_sizecache: 1,
 		},
-		test_proto.GoTestField{
+		&test_proto.GoTestField{
 			Label:         proto.String("123"),
 			Type:          proto.String("abc"),
 			XXX_sizecache: 2,
